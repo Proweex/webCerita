@@ -67,9 +67,18 @@ class CeritaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($idCerita)
     {
-        //
+        $id = $idCerita;
+        $judul = TabelCerita::find($id);
+        $nomorJilid = $id;
+        $listJilid = TabelJilid::all()->where('idCerita', $id);
+        $data = [
+            'judul'=>$judul->judulCerita,
+            'idCerita'=>$judul->id
+            // 'jilid'=>$listJilid
+        ];
+        return view('pages.cerita.edit')->with($data);
     }
 
     /**
@@ -81,7 +90,17 @@ class CeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'judul' => 'required'
+        ]);
+
+        // Create Cerita
+        $post = TabelCerita::find($id);
+        $post->judulCerita = $request->input('judul');
+        $post->coverImage = $request->input('cover');
+        $post->save();
+
+        return redirect('/cerita')->with('success', 'Berhasil diubah');
     }
 
     /**
@@ -92,6 +111,8 @@ class CeritaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = TabelCerita::find($id);
+        $post->delete();
+        return redirect('/cerita')->with('success', 'telah terhapus');
     }
 }

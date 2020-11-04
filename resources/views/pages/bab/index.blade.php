@@ -16,6 +16,9 @@
         @endforeach
     @else
         <br>
-        <p>Belum ada jilid</p>
+        <p>Belum ada Bab</p>
     @endif
+
+        <a href="/m/{{$idCerita}}/{{$nomorJilid}}/bab/create" class="btn btn-default">Tambah Bab</a>
+
 @endsection

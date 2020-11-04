@@ -21,6 +21,8 @@ Route::resource('cerita', 'CeritaController')->except(['index','show']);
 Route::resource('m/{idCerita}/jilid', 'JilidController')->except(['index','show']);
 Route::resource('m/{idCerita}/{nomorJilid}/bab', 'BabController')->except(['index','show']);
 
+Route::resource('m/user-manager', 'UserController');
+
 Route::get('cerita', 'CeritaController@index');
 Route::get('c/{idCerita}', 'PagesController@showCerita');
 

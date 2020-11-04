@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::open(['action'=> 'JilidController@store', 'method'=>'POST']) !!}
+    {!! Form::open(['action'=> ['JilidController@store', $idCerita], 'method'=>'POST']) !!}
         <div class="form-group">
             {{Form::label('judul', 'Judul')}}
             {{Form::text('judul', $judulCerita, ['class' => 'form-control', 'placeholder' => 'Judul', 'readonly'])}}

@@ -25,17 +25,18 @@ class JilidController extends Controller
      */
     public function create($idCerita)
     {
-        $jilid = TabelJilid::where('idCerita', $idCerita)->count();
+        $jilid = TabelJilid::where('idCerita', $idCerita)->orderBy('nomorJilid', 'desc')->limit(1)->get();
         $judul = TabelCerita::find($idCerita);
-        $nomorJilid;
-        if ($jilid>0) {
-            return $jilid=+1;
+    
+        if ($jilid != null) {
+            $nJilid = $jilid[0]['nomorJilid'];
+            $nJilid=$nJilid+1;
         } else {
-            $jilid=1;
+            $nJilid=1;
         }
         
         $data =[
-            'jilid'=>$jilid,
+            'jilid'=>$nJilid,
             'idCerita'=>$idCerita,
             'judulCerita'=>$judul->judulCerita
         ];
@@ -50,7 +51,13 @@ class JilidController extends Controller
      */
     public function store(Request $request, $idCerita)
     {
-        //
+        // return $idCerita;
+        $post = new TabelJilid;
+        $post->nomorJilid = $request->input('jilid');
+        $post->idCerita = $idCerita;
+        $post->save();
+
+        return redirect("/c/{$idCerita}")->with('success', 'Berhasil ditambahkan');
     }
 
     /**

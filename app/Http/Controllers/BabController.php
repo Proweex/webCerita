@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TabelCerita;
+use App\Models\TabelJilid;
+use App\Models\TabelBab;
+use Illuminate\Support\Facades\DB;
 
 class BabController extends Controller
 {
@@ -21,9 +25,25 @@ class BabController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($idCerita, $nomorJilid)
     {
-        //
+        // $bab = TabelBab::where('nomorJilid', $nomorJilid)->count();
+        return $bab = DB::select('select count(b.idJilid) from tabel_jilids a join tabel_babs b on a.nomorjilid = b.idjilid');
+        $jilid = TabelJilid::find($nomorJilid);
+        $judul = TabelCerita::find($idCerita);
+
+        if ($bab>0) {
+            $bab=$bab+1;
+        } else {
+            $bab=1;
+        }
+        
+        $data =[
+            'jilid'=>$jilid,
+            'idCerita'=>$idCerita,
+            'judulCerita'=>$judul->judulCerita
+        ];
+        return view('pages.bab.createBab')->with($data);
     }
 
     /**
